@@ -34,9 +34,9 @@ users =  {
  "The Strokes"=> 3.0}
 }
 
- def manhattan (rating1, rating2)
- 	# calculates the Manhattan distance on matched ratings across 2 hash tables (rating1 and rating2)
- 	# hash tables are in the form {"Norah Jones" => 3.0, "Phoenix" => 5.0...}
+ def manhattan(rating1, rating2)
+ 	# calculates the Manhattan distance on matched ratings across 2 hashes (rating1 and rating2)
+ 	# hashes are in the form {"Norah Jones" => 3.0, "Phoenix" => 5.0...}
 
  	distance = 0
 
@@ -53,3 +53,26 @@ users =  {
 
  puts manhattan(users["Hailey"], users["Veronica"])
  puts manhattan(users["Hailey"], users["Jordyn"])
+
+ def compute_nearest_neighbor(username, users)
+ 	# creates a sorted array of neighbors and distances from a given user. Closest neighbor is the first value
+
+ 	distances = Array.new
+
+ 	users.keys.each do |user|
+ 		if user != username
+ 			distance = manhattan(users[user], users[username])
+ 			distances << [distance, user]
+
+ 		end
+
+ 	end
+
+ 	return distances.sort
+
+ end
+
+
+ print compute_nearest_neighbor("Hailey", users)
+ puts compute_nearest_neighbor("Hailey", users).first
+
