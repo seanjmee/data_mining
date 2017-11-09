@@ -37,15 +37,15 @@ users =  {"Angelica" => {"Blues Traveler" => 3.5, "Broken Bells"=> 2.0, "Norah J
 
  	rating1.each do |k, v|
  		if rating2.has_key? k
- 			distance += (v- rating2[k]).abs
- 			puts "distance is" + distance.to_s
-
+ 			distance += (v - rating2[k]).abs
  		end
 
  		
  	end
 
+ 	return distance
+
  end
 
- manhattan(users["Hailey"], users["Veronica"])
- manhattan(users["Hailey"], users["Jordyn"])
+ puts manhattan(users["Hailey"], users["Veronica"])
+ puts manhattan(users["Hailey"], users["Jordyn"])
