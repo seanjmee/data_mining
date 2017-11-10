@@ -34,6 +34,28 @@ users =  {
  "The Strokes"=> 3.0}
 }
 
+def minkowski(rating1, rating2, r)
+	# computes Minkowski distance. rating1 and rating 2 are hashes. r can be 1 or 2. 1 is manhattan distance, 2 is euclidian
+	# hashes are in the form {"Norah Jones" => 3.0, "Phoenix" => 5.0...}
+
+	distance = 0
+	commonRatings = false
+
+	rating1.keys.each do |artist|
+ 		if rating2.has_key? artist
+ 			distance += 
+ 					((rating1[artist] - rating2[artist]).abs) ** r
+ 			commonRatings = true
+ 		end
+ 	end
+if commonRatings == true
+ 		return distance ** (1/r)
+ 	else
+ 		return 0
+ 	end
+
+end
+
  def manhattan(rating1, rating2)
  	# calculates the Manhattan distance on matched ratings across 2 hashes (rating1 and rating2)
  	# hashes are in the form {"Norah Jones" => 3.0, "Phoenix" => 5.0...}
@@ -51,8 +73,8 @@ users =  {
 
  end
 
- puts manhattan(users["Hailey"], users["Veronica"])
- puts manhattan(users["Hailey"], users["Jordyn"])
+ puts "manhattan distance between Hailey and Veronica is " + (manhattan(users["Hailey"], users["Veronica"])).to_s
+ puts "manhattan distance between Hailey and Jordyn is " + (manhattan(users["Hailey"], users["Jordyn"])).to_s
 
  def compute_nearest_neighbor(username, users)
  	# creates a sorted array of neighbors and distances from a given user. Closest neighbor is the first value
@@ -61,7 +83,7 @@ users =  {
 
  	users.keys.each do |user|
  		if user != username
- 			distance = manhattan(users[user], users[username])
+ 			distance = minkowski(users[user], users[username], 1)
  			distances << [distance, user]
 
  		end
@@ -73,6 +95,43 @@ users =  {
  end
 
 
- print compute_nearest_neighbor("Hailey", users)
- puts compute_nearest_neighbor("Hailey", users).first
+ print "Hailey's nearest neighbors : " + (compute_nearest_neighbor("Hailey", users)).to_s
+ # puts compute_nearest_neighbor("Hailey", users).first 
+
+ def recommend(username, users)
+ 	#makes recommendations for a user
+ 	#get the nearest neighbor first
+
+ 	nearest = compute_nearest_neighbor(username, users).first[1]
+ 	puts "nearest is " + nearest.to_s
+
+ 	#now find bands neighbor rated, but user did not
+
+ 	neighbor_ratings = users[nearest]
+ 	user_ratings = users[username]
+
+ 	recommendations = Array.new
+
+ 	neighbor_ratings.keys.each do |artist|
+ 		if !user_ratings.has_key? artist
+ 			recommendations << [artist, neighbor_ratings[artist]]
+ 		end
+	end
+
+	recommendations.sort_by! { |x,y| y }
+	return recommendations.reverse!
+
+ end
+
+puts ""
+print "Recommedations for Hailey : " + (recommend("Hailey", users)).to_s
+puts ""
+
+puts ""
+print "Recommedations for Sam : " + (recommend("Sam", users)).to_s
+puts ""
+
+
+
+
 
