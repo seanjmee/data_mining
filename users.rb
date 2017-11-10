@@ -31,7 +31,10 @@ users =  {
 
  "Veronica"=> {"Blues Traveler"=> 3.0, "Norah Jones"=> 5.0,
  "Phoenix"=> 4.0, "Slightly Stoopid"=> 2.5,
- "The Strokes"=> 3.0}
+ "The Strokes"=> 3.0},
+
+ "Clara" => {"Blues Traveler" => 4.75, "Norah Jones" => 4.5, "Phoenix" => 5, "The Strokes" => 4.25, "Weird Al" => 4},
+ "Robert" => {"Blues Traveler" => 4, "Norah Jones" => 3, "Phoenix" => 5, "The Strokes" => 2, "Weird Al" => 1}
 }
 
 def minkowski(rating1, rating2, r)
@@ -130,6 +133,63 @@ puts ""
 puts ""
 print "Recommedations for Sam : " + (recommend("Sam", users)).to_s
 puts ""
+
+def pearson(rating1, rating2)
+	#calculates the pearson correlation coefficient between two hashes of music artist ratings
+
+	number_of_bands_in_common = 0
+
+	first_expression = 0
+	rest_of_numerator = 0
+
+	first_part_of_denominator = 0
+	second_part_of_denominator = 0
+	third_part_of_denominator = 0
+	fourth_part_of_denominator = 0
+
+	rating1_sum = 0
+	rating2_sum = 0
+
+	rating1.keys.each do |artist|
+		if rating2.has_key? artist
+			number_of_bands_in_common += 1
+			rating1_sum += rating1[artist]
+			rating2_sum += rating2[artist]
+			first_expression += (rating1[artist] * rating2[artist])
+			first_part_of_denominator += rating1[artist] ** 2
+
+			third_part_of_denominator += rating2[artist] ** 2
+			
+		end
+	end
+
+	rest_of_numerator = (rating1_sum * rating2_sum) / number_of_bands_in_common
+	
+	second_part_of_denominator += (rating1_sum ** 2) / number_of_bands_in_common
+	fourth_part_of_denominator += (rating2_sum ** 2) / number_of_bands_in_common
+
+	numerator = (first_expression - rest_of_numerator).abs
+	puts "rating1_sum = " + rating1_sum.to_s
+	puts "rating2_sum = " +rating2_sum.to_s
+	puts "number_of_bands_in_common = " + number_of_bands_in_common.to_s
+	puts "first_expression = " + first_expression.to_s
+	puts "rest_of_numerator = " + rest_of_numerator.to_s
+	puts "numerator = " + numerator.to_s
+	puts "first_part_of_denominator = " + first_part_of_denominator.to_s
+	puts "second_part_of_denominator = " + second_part_of_denominator.to_s
+	puts "third_part_of_denominator = " + third_part_of_denominator.to_s
+	puts "fourth_part_of_denominator = " + fourth_part_of_denominator.to_s
+	denominator = Math.sqrt((first_part_of_denominator - second_part_of_denominator).abs) * Math.sqrt((third_part_of_denominator - fourth_part_of_denominator).abs)
+
+	r = numerator / denominator
+
+	puts "numerator = " + numerator.to_s
+	puts "denominator = " + denominator.to_s
+	puts "r = " + r.to_s
+
+end
+
+pearson(users["Clara"], users["Robert"])
 
 
 
