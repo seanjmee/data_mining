@@ -164,7 +164,7 @@ def pearson(rating1, rating2)
 	end
 
 	rest_of_numerator = (rating1_sum * rating2_sum) / number_of_bands_in_common
-	
+
 	second_part_of_denominator += (rating1_sum ** 2) / number_of_bands_in_common
 	fourth_part_of_denominator += (rating2_sum ** 2) / number_of_bands_in_common
 
@@ -185,11 +185,11 @@ def pearson(rating1, rating2)
 
 	puts "numerator = " + numerator.to_s
 	puts "denominator = " + denominator.to_s
-	puts "r = " + r.to_s
+	puts "Pearson Correlatoon coefficient = " + r.to_s
 
 end
 
-pearson(users["Clara"], users["Robert"])
+pearson(users["Angelica"], users["Jordyn"])
 
 
 
